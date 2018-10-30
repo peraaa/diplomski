@@ -1,0 +1,6 @@
+1. Ne radi login kako treba(ide na home.html bez ikakvih uslova)
+2. Ne radi file upload kako treba( nigde se nista ne upload-uje)
+3. Registracija ne radi kako treba.
+
+Problem kod registracije i logina jeste sto ne znam kako da postavim uslove
+i da poredim vrednosti promenljive na backend i frontend-u.

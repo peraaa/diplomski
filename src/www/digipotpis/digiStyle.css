@@ -1,0 +1,18 @@
+#sign {
+    background-color: white;
+    color: black;
+    border: 2px solid #f44336;
+}
+
+#choose {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+    margin-bottom: 5px;
+}
+
+#verify {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+}

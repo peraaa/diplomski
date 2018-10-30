@@ -1,0 +1,38 @@
+<div class="container">
+    <br>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+				<form role="form">
+					<div class="row">
+						<div class="form-group col-lg-12">
+							<label>Korisničko ime</label>
+							<input type="text" ng-model="vm.username" class="form-control">
+						</div>
+						
+						<div class="form-group col-lg-12">
+							<label>Lozinka</label>
+							<input type="password" ng-model="vm.password" class="form-control">
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="form-group col-md-6 col-md-offset-3 col-xs-8 col-xs-offset-2 text-center">
+							<button type="submit" ng-click="vm.login()" class="btn btn-lg">Login</button>
+						</div>
+						
+						<div class="form-group col-md-6 col-md-offset-3 col-xs-8 col-xs-offset-2 text-center">
+							<button type="submit" ng-click="vm.createUser()" class="btn btn-lg">Registracija</button>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="form-group col-md-6 col-md-offset-3 col-xs-8 col-xs-offset-2 text-center">
+							<label>{{vm.message}}</label>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

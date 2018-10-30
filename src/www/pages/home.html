@@ -1,0 +1,23 @@
+<h1>Digitalni potpis</h1>
+
+<section id="sign-and-verify">
+	<button id="choose" style="display:block;width:120px; height:30px;" onclick="document.getElementById('source-file').click()">Odaberi fajl</button>
+	<input type="file" id="source-file" style="display:none" />
+	<button id="sign">Potpisi fajl</button>
+	<button id="verify">Verifikuj potpis</button>
+</section>
+
+<section id="results">
+	Potpisani / verifikovani fajlovi :
+	<ul id="download-links"></ul>
+</section>
+
+<div class="row">
+	<div class="form-group col-md-12 col-md-offset-0 col-xs-12 col-xs-offset-0 text-center">
+		<h1> Upload file example</h1>
+		<div class="btn btn-primary btn-upload"
+			 upload-button
+			 url="/upload"
+			 on-success="onSuccess(response)">Upload</div>
+	</div>
+</div>

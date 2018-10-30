@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="jumbotron">
+
+        <div class="row">
+            <div class="col-sm-8">
+                <form>
+                    <label>Username</label>
+                    <input type="text" ng-model="vm.username"
+                            class="form-control" placeholder="Username" 
+                            required autofocus>
+                    <label>Password</label>
+                    <input type="password" ng-model="vm.password"
+                           class="form-control" placeholder="Password" required>
+                    <br>
+                    <button class="btn btn-lg btn-block" ng-click="vm.createUser()" 
+                            type="submit">
+                        Create</button>
+                  </form>
+            </div>
+        </div>
+        <div style="height:600px;overflow-y:auto;">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr ng-repeat="u in vm.users| orderBy:'idUsers':true track by $index" style="cursor: pointer;">
+                            <td>{{u.idUsers}}</td>
+                            <td>{{u.username}}</td>
+                            <td>{{u.password}}</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-8">
+                <a ng-click="vm.logout()" href="">Logout</a>
+            </div>
+            <div class="col-sm-4">
+                Nesto
+            </div>
+        </div>
+    </div>
+</div>
