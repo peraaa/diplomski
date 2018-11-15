@@ -37,6 +37,14 @@ routerApp.controller('LoginController', function ($rootScope, $scope, $http, $st
 	}
 
 });
+// LOGOUT CONTROLLER
+routerApp.controller('LogoutController', function ($rootScope, $scope, $http, $state) {
+	vm.logout = function(){
+		$scope.username = '';
+		$scope.password = '';
+		$location.path('index.html');
+	}
+});
 
 // REGISTER CONTROLLER
 routerApp.controller('RegisterController', function ($rootScope, $scope, $http, $state) {

@@ -16,11 +16,76 @@
 </head>
 
 <body ng-app="myApp" ng-controller="AppCtrl as vm">
+<div class="container">
+    <br>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-2">
+				<form role="form">
+					<div class="row">
+						<form class="form-signin" ng-hide="vm.autorizovan">
+							<label for="inputUser" class="sr-only">Koriscnicko ime</label>
+							<input type="char" id="inputUser" class="form-control" ng-model="vm.username" placeholder="Korisnicko ime" required autofocus>
+							<label for="inputPassword" class="sr-only">Password</label>
+							<input type="password" id="inputPassword" class="form-control" ng-model="vm.password" placeholder="Sifra" required>
+								<div class="form-group col-md-4 col-md-offset-4 col-xs-4 col-xs-offset-2 text-center">
+								<button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="vm.login()">Uloguj se</button>
+								<button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="vm.createUser()" class="btn btn-reg">Registracija</button>
+							</div>
+						  </form>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-4 col-md-offset-4 col-xs-4 col-xs-offset-2 text-center">
+							<label>{{vm.message}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="container">
+					<div class="col-md-4 col-md-offset-4" ng-hide="vm.autorizovan">
+					</div>
+					<div class="col-md-8 col-md-offset-2" ng-show="vm.autorizovan">
+					  <div class="panel panel-default">
+						<div class="form-group col-md-12 col-md-offset-0 col-xs-12 col-xs-offset-0 text-center">
+							<h1>Digitalni potpis</h1>
+							<section id="sign-and-verify">
+								<script src="../digipotpis/digipotpis.js"></script>
+								<button id="choose" style="display:block;width:120px; height:30px;" onclick="document.getElementById('source-file').click()">Odaberi fajl</button>
+								<input type="file" id="source-file" style="display:none" />
+								<button id="sign">Potpisi fajl</button>
+								<button id="verify">Verifikuj potpis</button>
+							</section>
+							
+							<section id="results">
+								Potpisani / verifikovani fajlovi :
+								<ul id="download-links"></ul>
+							</section>
+							
+							<div class="row">
+								<div class="form-group col-md-12 col-md-offset-0 col-xs-12 col-xs-offset-0 text-center">
+									<h1> Upload-ovani fajlovi:</h1>
+									<div class="btn btn-primary btn-upload"
+										 upload-button
+										 url="/upload"
+										 on-success="onSuccess(response)">Odaberi datoteku za upload</div>
+								</div>
+							</div>
+							<div ng-show="vm.autorizovan">
+								<div class="form-group col-md-4 col-md-offset-4 col-xs-4 col-xs-offset-2 text-center">
+								  <button class="btn btn-lg btn-primary btn-block" ng-click="vm.logout()">Izloguj se</button>
+								</div>
+							</div>
+							</div>
+						 </div>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
-	<input type="text" ng-model="vm.username">
-	<input type="password" ng-model="vm.password">
-	<button ng-click="vm.login()"> LOGIN</button><br>
-	{{vm.message}}
 
 
 	<!-- js scripts -->

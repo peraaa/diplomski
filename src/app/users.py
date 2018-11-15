@@ -7,7 +7,6 @@ from flask import Response
 
 import json
 import itertools
-import json
 
 
 
