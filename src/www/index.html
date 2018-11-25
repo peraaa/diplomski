@@ -25,6 +25,7 @@
 			<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-2">
 				<form role="form">
 					<div class="row">
+						<h2>Digitalni potpis datoteka</h2>
 						<form class="form-signin" ng-hide="vm.autorizovan">
 							<label for="inputUser" class="sr-only">Koriscnicko ime</label>
 							<input type="char" id="inputUser" class="form-control" ng-model="vm.username" placeholder="Korisnicko ime" required autofocus>
@@ -51,6 +52,9 @@
 							<h1>Digitalni potpis</h1>
 							<section id="sign-and-verify">
 								<script src="../digipotpis/digipotpis.js"></script>
+								<div class="row">
+									<button id="getKeys">Generisi moj kljuc</button>
+								</div>
 								<button id="choose" style="display:block;width:120px; height:30px;" onclick="document.getElementById('source-file').click()">Odaberi fajl</button>
 								<input type="file" id="source-file" style="display:none" />
 								<button id="sign">Potpisi fajl</button>
@@ -63,12 +67,78 @@
 							</section>
 							
 							<div class="row">
-								<div class="form-group col-md-12 col-md-offset-0 col-xs-12 col-xs-offset-0 text-center">
-									<h1> Upload-ovani fajlovi:</h1>
-									<div class="btn btn-primary btn-upload"
-										 upload-button
-										 url="/upload"
-										 on-success="onSuccess(response)">Odaberi datoteku za upload</div>
+								<div style="height:300px;">         
+
+									<div ng-show="uploader.isHTML5" >
+										<div nv-file-drop="" uploader="uploader" options="{ url: '/api/files/upload/' }">
+											<div nv-file-over="" uploader="uploader" 
+												over-class="another-file-over-class" 
+												style="height:50px;"
+												class="well my-drop-zone">
+												Drag & drop datoteke na ovo mesto ili klik na dugme ispod
+											</div>
+										</div>
+									</div>
+									<input type="file" nv-file-select="" uploader="uploader" multiple  />
+									<!-- <table class="table" ng-show = "uploader.queue.length >0"> -->
+									<table class="table">
+										<thead>
+											<tr class="tr-narrow">
+												<td width="50%">Naziv</td>
+												<td ng-show="uploader.isHTML5">Veličina</td>
+												<td ng-show="uploader.isHTML5">Progres</td>
+												<td>Status</td>
+												<td>Akcije</td>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="item in uploader.queue" class="tr-narrow">
+												<td>{{ item.file.name }}</td>
+												<td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+												<td ng-show="uploader.isHTML5">
+													<div class="progress" style="margin-bottom: 0;">
+														<div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+													</div>
+												</td>
+												<td class="text-center">
+													<span ng-show="item.isSuccess">ok</span>
+													<span ng-show="item.isCancel">cancel</span>
+													<span ng-show="item.isError">err</span>
+												</td>
+												<td nowrap>
+													<button type="button" class="btn btn-outline-dark btn-sm btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+														Upload
+													</button>
+													<button type="button" class="btn btn-outline-dark btn-sm btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+															Odustani
+													</button>
+													<button type="button" class="btn btn-outline-dark btn-sm btn-xs" ng-click="item.remove()">
+															Obriši
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+							
+									<div ng-show = "uploader.queue.length >0">
+										<div class="progress">
+											<div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+										</div>
+									</div>
+							
+								</div>
+								<div>
+									<button type="button" class="btn btn-outline-dark btn-sm btn-xs" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+											Upload svih
+									</button>
+									<button type="button" class="btn-outline-dark btn-sm btn-xs" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+											Prekini sve
+									</button>
+									<button type="button" class="btn-outline-dark btn-sm btn-xs" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+											Obriši sve
+									</button>
+									<!-- </div> -->
+								</div>
 								</div>
 							</div>
 							<div ng-show="vm.autorizovan">
@@ -87,83 +157,6 @@
 		</div>
 	</div>
 </div>
-
-	<!-- ---------------------------------------------------------------------- -->
-	<div style="height:300px;">         
-
-		<div ng-show="uploader.isHTML5" >
-			<div nv-file-drop="" uploader="uploader" options="{ url: '/api/files/upload/' }">
-				<div nv-file-over="" uploader="uploader" 
-					over-class="another-file-over-class" 
-					style="height:50px;"
-					class="well my-drop-zone">
-					Drag & drop datoteke na ovo mesto ili klik na dugme ispod
-				</div>
-			</div>
-		</div>
-		<input type="file" nv-file-select="" uploader="uploader" multiple  />
-		<!-- <table class="table" ng-show = "uploader.queue.length >0"> -->
-		<table class="table">
-			<thead>
-				<tr class="tr-narrow">
-					<td width="50%">Naziv</td>
-					<td ng-show="uploader.isHTML5">Veličina</td>
-					<td ng-show="uploader.isHTML5">Progres</td>
-					<td>Status</td>
-					<td>Akcije</td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="item in uploader.queue" class="tr-narrow">
-					<td>{{ item.file.name }}</td>
-					<td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-					<td ng-show="uploader.isHTML5">
-						<div class="progress" style="margin-bottom: 0;">
-							<div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-						</div>
-					</td>
-					<td class="text-center">
-						<span ng-show="item.isSuccess">ok</span>
-						<span ng-show="item.isCancel">cancel</span>
-						<span ng-show="item.isError">err</span>
-					</td>
-					<td nowrap>
-						<button type="button" class="btn btn-outline-dark btn-sm btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-							Upload
-						</button>
-						<button type="button" class="btn btn-outline-dark btn-sm btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
-								Odustani
-						</button>
-						<button type="button" class="btn btn-outline-dark btn-sm btn-xs" ng-click="item.remove()">
-								Obriši
-						</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<div ng-show = "uploader.queue.length >0">
-			<div class="progress">
-				<div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
-			</div>
-		</div>
-
-	</div>
-	<div>
-		<button type="button" class="btn btn-outline-dark btn-sm btn-xs" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
-				Upload svih
-		</button>
-		<button type="button" class="btn-outline-dark btn-sm btn-xs" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
-				Prekini sve
-		</button>
-		<button type="button" class="btn-outline-dark btn-sm btn-xs" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
-				Obriši sve
-		</button>
-		<!-- </div> -->
-	</div>
-	<!-- ------------------------ -->
-
-
 	<!-- js scripts -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>

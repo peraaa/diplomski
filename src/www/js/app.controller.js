@@ -38,10 +38,10 @@
             //   {
             //     vm.message = "Pogresno korisnicko ime i/ili lozinka!";
             //   }
-            //   if(vm.password == '' || vm.username == '')
-            //     {
-            //         alert("Morate uneti korisnicko ime i sifru!");
-            //     }
+               if(vm.password == '' || vm.username == '')
+                 {
+                    vm.message = "Morate uneti korisnicko ime i sifru!";
+                 }
             $http(req).then(function(resp){
                 console.log(resp)
                 if(resp.data.res == 'success'){
